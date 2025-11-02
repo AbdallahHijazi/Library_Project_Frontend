@@ -1,0 +1,151 @@
+<app-home></app-home>
+
+<!-- ✅ يعوّض عرض السايدبار -->
+<div class="borrow-page" dir="rtl">
+  <!-- شريط علوي: بحث + مفاتيح -->
+  <div class="bw-toolbar">
+    <input
+      class="bw-input"
+      type="text"
+      placeholder="ابحث باسم العضو / الكتاب…"
+      [(ngModel)]="search"
+      (input)="applyFilter()"
+    />
+    <button *ngIf="permissionService.has('Borrowing.create')" class="bw-primary" type="button" (click)="openBorrowModal()">+ استعارة جديدة</button>
+  </div>
+
+  <!-- رسائل حالة -->
+  <div *ngIf="loading" class="bw-info">جاري التحميل…</div>
+  <div *ngIf="!loading && errorMsg" class="bw-error">{{ errorMsg }}</div>
+
+  <!-- محتوى: قائمة + سايدبار -->
+  <div class="bw-content" *ngIf="!loading && !errorMsg">
+    <!-- قائمة الاستعارات -->
+    <section class="bw-list">
+      <div class="bw-empty" *ngIf="filtered.length === 0">لا توجد استعارات مطابقة.</div>
+
+      <div class="bw-cards" *ngIf="filtered.length > 0">
+        <div class="bw-card" *ngFor="let b of filtered; trackBy: trackById">
+          <div class="bw-card-head">
+            <h3>{{ b.bookTitle }}</h3>
+            <small>المستعير: {{ b.memberName }}</small>
+          </div>
+          <div class="bw-card-body">
+            <p >تاريخ الاستعارة:<br> {{ b.borrowDate | date:'medium' }}</p>
+            <!-- <p>
+              الحالة:
+              <strong  [class.bw-ok]="!b.returnDate" [class.bw-bad]="!!b.returnDate">
+                {{ b.returnDate | date:'medium' }}
+                {{ !b.returnDate ? 'نشِطة' : 'مغلقة' }}
+              </strong>
+            </p> -->
+            <ng-container  *ngIf="b.returnDate">
+              <p  >تاريخ الإرجاع:<br> {{ b.returnDate | date:'medium' }}</p>
+            </ng-container>
+          </div>
+          <div class="bw-card-actions">
+            <button *ngIf="permissionService.has('Borrowing.Delete')" type="button" (click)="openReturnModal(b)" [disabled]="!b.returnDate">إرجاع الكتاب</button>
+            <button  *ngIf="permissionService.has('Borrowing.Update')" type="button" class="bw-edit-btn" (click)="openEditModal(b)">تعديل</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- سايدبار بسيط (اختياري) -->
+    <!-- <aside class="bw-sidebar">
+      <div class="bw-side-card" >
+        <h3>روابط سريعة</h3>
+             <button *ngIf="permissionService.has('Borrowing.create')" class="bw-primary" type="button" (click)="openBorrowModal()">+ استعارة جديدة</button>
+      </div>
+    </aside> -->
+  </div>
+</div>
+
+<!-- ===================== مودال: إضافة استعارة ===================== -->
+<div *ngIf="ui.modal === 'borrow'" class="modal-backdrop" (click)="onBackdropClick($event)" dir="rtl">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>إضافة استعارة</h2>
+    <form (ngSubmit)="submitBorrow()">
+      <label for="member">اختر العضو:</label><br>
+      <select id="member" [(ngModel)]="selectedMemberId" name="memberId" required>
+        <option [ngValue]="null" disabled selected>— اختر عضواً —</option>
+        <option *ngFor="let m of members" [value]="m.id">{{ m.fullName }}</option>
+      </select><br>
+
+      <label for="book">اختر الكتاب:</label><br>
+      <select id="book" [(ngModel)]="selectedBookId" name="bookId" required>
+        <option [ngValue]="null" disabled selected>— اختر كتاباً —</option>
+        <option *ngFor="let b of books" [value]="b.id">{{ b.title }}</option>
+      </select><br>
+
+      <label for="borrowDate">تاريخ الاستعارة:</label><br>
+      <input class="inputDate" type="datetime-local" id="borrowDate" [(ngModel)]="borrowDate" name="borrowDate" required /><br>
+
+      <label for="returnDate">تاريخ الإرجاع المتوقع:</label><br>
+      <input class="inputDate" type="datetime-local" id="returnDate" [(ngModel)]="returnDate" name="returnDate"  /><br>
+
+      <div class="bw-modal-actions">
+        <button type="submit">تأكيد الاستعارة</button>
+        <button type="button" (click)="closeModal()">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== مودال: إرجاع كتاب ===================== -->
+<div *ngIf="ui.modal === 'return'" class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 style="text-align: center;">تأكيد الإرجاع</h2>
+    <div class="bw-modal-actions">
+      <button type="button" (click)="confirmReturn()" [disabled]="!selectedBorrowingId">تأكيد الإرجاع</button>
+      <button type="button"  (click)="closeModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== مودال تعديل استعارة ===================== -->
+<div *ngIf="ui.modal === 'edit'" class="bw-edit-backdrop" (click)="onBackdropClick($event)">
+  <div class="bw-edit-card" (click)="$event.stopPropagation()">
+    <div class="bw-edit-head">
+      <h3 class="bw-edit-title">تعديل بيانات الاستعارة</h3>
+      <button type="button" class="bw-edit-x" (click)="closeModal()">✕</button>
+    </div>
+
+    <form (ngSubmit)="submitEdit()" class="bw-edit-form" method="dialog">
+      <!-- اسم العضو -->
+      <div class="bw-edit-field">
+        <label class="bw-edit-label">اسم العضو</label>
+        <input class="bw-edit-input" type="text" [value]="borrowEdit.memberName" readonly />
+      </div>
+
+      <!-- اسم الكتاب -->
+      <div class="bw-edit-field">
+        <label class="bw-edit-label">اسم الكتاب</label>
+        <input class="bw-edit-input" type="text" [value]="borrowEdit.bookTitle" readonly />
+      </div>
+
+      <!-- تاريخ الاستعارة -->
+      <div class="bw-edit-field">
+        <label class="bw-edit-label" for="editBorrowDate">تاريخ الاستعارة</label>
+            <input class="bw-edit-input" type="datetime-local" id="editBorrowDate"
+                    [(ngModel)]="borrowEdit.borrowDate" name="editBorrowDate" required />
+      </div>
+
+      <!-- تاريخ الإرجاع -->
+      <div class="bw-edit-field">
+        <label class="bw-edit-label" for="editReturnDate">تاريخ الإرجاع</label>
+                <input class="bw-edit-input" type="datetime-local" id="editReturnDate"
+       [(ngModel)]="borrowEdit.returnDate" name="editReturnDate" />
+      </div>
+
+      <div class="bw-edit-actions">
+        <button type="submit" class="bw-edit-primary">حفظ التعديل</button>
+        <button type="button" class="bw-edit-secondary" (click)="closeModal()">إلغاء</button>
+      </div>
+
+      <div *ngIf="errorMsg" class="bw-edit-error">{{ errorMsg }}</div>
+    </form>
+  </div>
+</div>
+
+

@@ -1,0 +1,30 @@
+<mat-card class="login-card">
+  <h2>تسجيل الدخول</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onLogin()">
+    <!-- حقل البريد الإلكتروني -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>البريد الإلكتروني</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="example@mail.com" />
+      <mat-error *ngIf="form.get('email')?.hasError('required')">مطلوب</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">البريد غير صالح</mat-error>
+    </mat-form-field>
+
+    <!-- حقل كلمة المرور -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>كلمة المرور</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="********" />
+      <mat-error *ngIf="form.get('password')?.hasError('required')">مطلوب</mat-error>
+    </mat-form-field>
+
+    <!-- زر الدخول -->
+    <button mat-raised-button color="primary" class="full-width" type="submit">
+      دخول
+    </button>
+  </form>
+
+  <!-- رابط إنشاء حساب جديد -->
+  <p class="signup-link">
+    ليس لديك حساب؟ <a routerLink="/signin">إنشاء حساب</a>
+  </p>
+</mat-card>

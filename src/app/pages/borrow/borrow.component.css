@@ -1,0 +1,231 @@
+/* تعويض عرض السايدبار */
+:root { --sidebar-width: 85px; }
+
+.borrow-page {
+  margin-left: var(--sidebar-width); /* لو السايدبار يسار */
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: margin-left .25s ease;
+}
+
+/* شريط علوي */
+.bw-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.bw-input { flex: 1; padding: 8px 10px; border-radius: 8px; border: 1px solid #334155;  color:#e5e7eb; }
+.bw-toggle { display: inline-flex; gap: 6px; align-items: center; font-size: .95rem; }
+.bw-primary { padding: 8px 12px; border-radius: 10px; border: 1px solid #334155; background:#1f2937; color:#e5e7eb; cursor: pointer; }
+
+/* شبكة المحتوى */
+.bw-content {
+  display: block;
+  grid-template-columns: 1fr 320px; /* القائمة | السايدبار */
+  gap: 16px;
+}
+
+/* قائمة الاستعارات */
+.bw-empty, .bw-info, .bw-error { padding: 10px 12px; border-radius: 8px; }
+.bw-info { background: #0b1220; color:#9ca3af; border:1px dashed #334155; }
+.bw-error { background: #310d0d; color:#fecaca; border:1px solid #7f1d1d; }
+
+.bw-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.bw-card {
+  background:#0f172a; color:#e5e7eb;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px; overflow:hidden;
+}
+
+.bw-card-head { padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.08); display:flex; flex-direction:column; gap:4px; }
+.bw-card-body { padding:12px 14px;width: 80%; }
+.bw-card-actions { padding:12px 14px; display:flex; gap:8px; }
+.bw-card-actions button {     
+    padding: 8px 14px; border-radius: 8px; border:none; cursor:pointer;
+    background: #1f2937; color:#e5e7eb; border:1px solid #334155; }
+
+.bw-ok { color:#10b981; }
+.bw-bad { color:#ef4444; }
+
+/* سايدبار */
+.bw-sidebar{
+    border: 1px solid #e8e8e8; border-radius: 12px; padding: 12px; 
+    background: #0b1220; color: #fff; height: fit-content;position: sticky; top: 20px;
+}
+.bw-side-card {
+  color:#e5e7eb; border:1px solid #e8e8e8;
+  border-radius:12px;padding-bottom: 12px;padding-right:12px ;
+  
+}
+.bw-side-card h3{
+    text-align: center;
+    padding-top: -5px;
+}
+.bw-side-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+.modal-backdrop { 
+        position: fixed; inset: 0; margin: 0; z-index: 1000; display:flex;
+        align-items:center; justify-content:center; background: rgba(0,0,0,.55); 
+      }
+.modal-content {
+  max-width: 320px;  width: 96%;
+  background:#0f172a; color:#e5e7eb; border:1px solid rgba(255,255,255,.08);
+  border-radius:12px; padding:16px;
+}
+.bw-modal-actions {  display:flex; gap:8px; justify-content:center; }
+.bw-modal-actions button{
+    padding: 8px 14px; border-radius: 8px; border:none; cursor:pointer;
+    background: #1f2937; color:#e5e7eb; border:1px solid #334155;
+    margin-top: 20px;
+}
+
+.bw-muted{ color:#9ca3af; font-size:.95rem; }
+
+.inputDate {
+  width: 91%; padding: 8px 10px; border-radius: 8px; border: 1px solid #334155; background:#0b1220; color:#e5e7eb; margin: 6px 0;
+}
+select {
+  width: 95%; padding: 8px 10px; border-radius: 8px; border: 1px solid #334155; background:#0b1220; color:#e5e7eb; margin: 6px 0;
+}
+
+/* استجابة */
+@media (max-width: 900px) {
+  .bw-content { grid-template-columns: 1fr; }
+}
+
+.bw-edit-backdrop {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+}
+.bw-edit-card {
+  min-width: 340px; max-width: 560px; width: 96%;
+  background:#0f172a; color:#e5e7eb;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius: 12px; padding: 14px;
+}
+.bw-edit-head {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom: 8px;
+}
+.bw-edit-title { margin: 0; font-size: 1.15rem; }
+.bw-edit-x { border:none; background:transparent; color:#9ca3af; font-size: 1.1rem; cursor: pointer; }
+
+.bw-edit-form { display: grid; gap: 10px; }
+.bw-edit-field { display: grid; gap: 6px; width: 90%;}
+.bw-edit-label { font-size: .95rem; color:#cbd5e1; }
+.bw-edit-input {
+   padding: 8px 10px; border-radius: 8px;
+  border:1px solid #334155; background:#0b1220; color:#e5e7eb;
+}
+.bw-edit-input[readonly] {
+  opacity: .8;
+  cursor: not-allowed;
+  background: #111827;
+}
+.bw-edit-actions { display:flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+.bw-edit-primary { padding: 8px 12px; border-radius: 10px; background:#1f2937; border:1px solid #334155; color:#e5e7eb; cursor: pointer; }
+.bw-edit-secondary { padding: 8px 12px; border-radius: 10px; background:transparent; border:1px solid #334155; color:#cbd5e1; cursor: pointer; }
+.bw-edit-error { margin-top: 6px; color:#fecaca; background:#311016; border:1px solid #7f1d1d; padding: 8px 10px; border-radius: 8px; }
+.bw-edit-btn { cursor: pointer; }
+
+/* استجابة */
+/* @media (max-width: 900px) {
+  .bw-content { grid-template-columns: 1fr; }
+} */
+ /* ======================================================= */
+/* 📱 التجاوبية (RESPONSIVE) - تبدأ من 767px وأقل (الهواتف) */
+/* ======================================================= */
+@media (max-width: 767px) {
+    
+    /* 1. إزالة هامش السايدبار الافتراضي على الهواتف */
+    .borrow-page {
+        margin-left: 0; /* إلغاء الهامش الذي يتركه السايدبار عند إخفائه */
+        padding: 10px; /* تقليل الهوامش الخارجية قليلاً */
+    }
+
+    /* 2. تحسين بطاقات الاستعارة */
+    .bw-cards {
+        /* التأكد من أن البطاقات لا تزال تعمل بشكل جيد */
+        grid-template-columns: 1fr; /* عمود واحد لبطاقات الاستعارات */
+        gap: 10px;
+    }
+    
+    /* 3. جعل أزرار الإجراءات عمودية في البطاقة */
+    .bw-card-actions {
+        flex-direction: column; /* الأزرار عمودية (إرجاع، تعديل) */
+        gap: 6px;
+        
+        button {
+            width: 100%; /* تأخذ العرض الكامل */
+            box-sizing: border-box;
+        }
+    }
+    
+    /* 4. تعديل عرض حقول الإدخال والاختيار في الشريط العلوي */
+    .bw-input {
+        padding: 12px 10px; /* زيادة ارتفاع حقل البحث لسهولة اللمس */
+    }
+    .bw-primary {
+        padding: 12px;
+    }
+
+    /* 5. تحسين عرض المودالات (إضافة استعارة / إرجاع) */
+    .modal-content {
+        /* المودال الصغير (إضافة استعارة) */
+        max-width: 95%; 
+        width: 95%;
+        height: auto; /* ترك الارتفاع تلقائياً */
+        padding: 15px;
+    }
+    
+    .bw-modal-actions {
+        flex-direction: column;
+        gap: 10px;
+        
+        button {
+            width: 100%;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+    }
+    
+
+    .inputDate, select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* ======================================================= */
+/*   لمودال التعديل  */
+
+@media (max-width: 500px) {
+    
+    .bw-edit-card {
+        width: 75%; 
+        min-width: unset; 
+        max-width: none; 
+        border-radius: 4;
+    }
+    
+    .bw-edit-field {
+        width: 100%;
+    }
+    
+    .bw-edit-actions {
+        flex-direction: column;
+        gap: 8px;
+        
+        .bw-edit-primary, .bw-edit-secondary {
+            width: 100%;
+            order: 1;
+        }
+    }
+}

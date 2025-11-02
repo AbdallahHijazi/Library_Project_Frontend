@@ -1,0 +1,98 @@
+<app-home></app-home>
+
+<div #pdfContent class="report-container">
+    <div class="test">
+        <div class="main-content-wrapper" dir="rtl">
+            <h2 class="page-title">لوحة تحكم المكتبة 📊</h2>
+
+            <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+            
+            <div class="stats-grid" *ngIf="stats">
+                
+                <div class="stat-card total-books">
+                    <h3 class="card-title">إجمالي الكتب</h3>
+                    <p class="stat-value">{{ stats.totalBooks }}</p>
+                </div>
+
+                <div class="stat-card total-members">
+                    <h3 class="card-title">إجمالي الأعضاء المسجلين</h3>
+                    <p class="stat-value">{{ stats.totalMembers }}</p>
+                </div>
+
+                <div class="stat-card active-members">
+                    <h3 class="card-title">أعضاء نشطون (استعاروا)</h3>
+                    <p class="stat-value">{{ stats.activeMembers }}</p>
+                </div>
+
+                <div class="stat-card currently-borrowed">
+                    <h3 class="card-title">كتب مُستعارة حالياً</h3>
+                    <p class="stat-value">{{ stats.borrowedBooks }}</p>
+                </div>
+
+                <div class="stat-card overdue-books">
+                    <h3 class="card-title">كتب متأخرة ⚠️</h3>
+                    <p class="stat-value">{{ stats.overdueBooks }}</p>
+                </div>
+            </div>
+            
+            <div *ngIf="loadingReports" class="loading-state">جاري تحميل التقارير التفصيلية...</div>
+
+            <div class="detailed-reports-section" *ngIf="!loadingReports">
+                
+                <div class="report-table-box overdue-report">
+                    <h4 class="report-title">سجلات الاستعارة المتأخرة ({{ stats.overdueBooks }})</h4>
+                    <table *ngIf="stats.overdueBooks > 0; else noOverdue">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">الكتاب</th>
+                                <th style="width: 25%;">العضو</th>
+                                <th style="width: 25%;">تاريخ الاستحقاق</th>
+                                <th style="width: 20%;">أيام التأخير</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of overdueBooks">
+                                <td>{{ item.bookTitle }}</td>
+                                <td>{{ item.memberName }}</td>
+                                <td>{{ item.dueDate | date:'shortDate' }}</td>
+                                <td class="late-days">{{ item.daysLate }} يوم</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="side-by-side-reports">
+                    <div class="report-list-box">
+                        <h4 class="report-title">الكتب الأكثر استعارة (Top 5)</h4>
+                        <ul *ngIf="mostBorrowedBooks.length > 0; else noBooks">
+                            <li *ngFor="let item of mostBorrowedBooks">
+                                <span class="list-item-text">{{ item.title }}</span>
+                                <span class="count">{{ item.borrowCount }} استعارة</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="report-list-box">
+                        <h4 class="report-title">الأعضاء الأكثر نشاطاً (Top 5)</h4>
+                        <ul *ngIf="mostActiveMembers.length > 0; else noMembers">
+                            <li *ngFor="let item of mostActiveMembers">
+                                <span class="list-item-text">{{ item.memberName }}</span>
+                                <span class="count">{{ item.borrowCount }} استعارة</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button (click)="exportServerPdf()"
+                        class="export-button"
+                        [disabled]="downloading">
+                {{ downloading ? '...جاري التحضير' : 'تصدير التقرير كـ PDF 📄 (من الخادم)' }}
+                </button>
+            </div>
+
+            <ng-template #noBooks><p class="muted">لا توجد بيانات كتب كافية.</p></ng-template>
+            <ng-template #noMembers><p class="muted">لا توجد بيانات أعضاء كافية.</p></ng-template>
+            <ng-template #noOverdue><p class="muted">لا توجد كتب متأخرة حالياً. (ممتاز!)</p></ng-template>
+
+        </div>
+    </div>
+</div>

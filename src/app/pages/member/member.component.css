@@ -1,0 +1,378 @@
+/* ====== الصفحة والقوائم ====== */
+.card-Felrir{
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  margin-left: 80px;
+  margin-top: -20px;
+}
+.button-Add{
+  background-color: #112042;
+  color: #fff;
+  border: none;
+  height: 40px;
+  padding: 10px 16px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.button-Add:hover { background-color: #174768; }
+.members-page { padding: 10px; }
+
+.members-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.member-card {
+  background-color: #0b1220;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 250px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+  transition: transform .3s ease;
+}
+.member-card:hover { transform: translateY(-5px); }
+
+.card-header { margin-bottom: 15px; }
+.card-header h3 { font-size: 1.5rem; }
+.card-header small { color: #ecf0f1; font-size: .9rem; }
+
+.card-body p { font-size: 1rem; margin: 5px 0; }
+
+.card-actions { margin-top: 15px; text-align: center; }
+.card-actions button {
+  background-color: #2c3e50;
+  width: 110px;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.card-actions button:hover { background-color: #174768; }
+
+/* ====== شريط الأدوات ====== */
+.toolbar {
+  display: flex;
+  margin: 20px 0;
+  align-items: center;
+  gap: 10px;
+  width: 90%;
+  border-radius: 8px;
+  border: 1px dashed #272727;
+}
+.toolbar input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+/* ====== الشريط الجانبي ====== */
+
+
+.modal-backdrop,
+.modal-overlay,
+.modal-return,
+.m-add-backdrop {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  z-index: 1000;
+}
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: 90px;
+  width: 220px;
+  height: fit-content;
+  background: #0b1220;
+  color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 12px;
+}
+.card {
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 12px;
+  background: #111827;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.card-header h3 { margin: 0; font-size: 18px; text-align: center; }
+.card-header small { color: #cbd5e1; display: block; text-align: right; padding-top: 15px; }
+.card-body p { margin: 6px 0; text-align: right; }
+.quick-links { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+.quick-links a { color: #93c5fd; text-decoration: underline; }
+
+/* ====== Modal: الخلفية (موحّدة) ====== */
+/* توحيد التعريف لمنع التكرار */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* ====== Modal: بطاقة داكنة (تفاصيل) ====== */
+.modal-card {
+  width: clamp(340px, 60vw, 560px);
+  background: #0b1220;
+  color: #fff;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  padding: 16px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-header h3 { margin: 0 0 8px; text-align: center; }
+.modal-body { overflow: auto; padding: 8px 4px; }
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+.modal-actions button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ====== Modal: محتوى أبيض (الاستعارة) ====== */
+/* أبقيت نفس الاسم مع إزالة التكرار */
+.modal-content {
+  background: #fff;
+  color: #111;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 92vw;
+  box-shadow: 0 4px 8px rgba(0,0,0,.1);
+}
+.modal-content label { display: block; margin-bottom: 5px; }
+.modal-content input,
+.modal-content select {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.inputDate { width: 90%; } /* تعريف واحد فقط */
+
+/* أزرار مودال الاستعارة */
+.modal-content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.modal-content button[type="submit"] {
+  margin-left: 28%;
+  background-color: #14213ac9;
+  color: #fff;
+}
+.modal-content button[type="submit"]:hover { background-color: #14213a; }
+.modal-content button[type="button"] {
+  background-color: #a31a0b8f;
+  color: #fff;
+}
+.modal-content button[type="button"]:hover { background-color: #c0392b; }
+
+/* ====== Modal: الحذف (overlay + box) ====== */
+/* جعل الـ overlay يملأ الشاشة ويتوسّط المربع */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: #14213a;
+  color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,.3);
+  width: 250px;
+  height: 100px;
+  text-align: center;
+  position: relative;
+}
+.modal button {
+  height: 30px;
+  width: 60px;
+  margin: 7%;
+  
+  border-radius: 5px;
+  cursor: pointer;
+}
+.modal button:first-child {
+  background-color: rgb(241, 25, 69);
+  border: none;
+  color: #fff;
+}
+.modal button:last-child {
+  background-color: rgb(185, 197, 194);
+  border: none;
+  color: #111;
+}
+
+/* زر حذف منفصل (إن كنت تستعمله) */
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 8px; /* RTL: إذا بدك يمين بدّلها إلى right */
+  background: #ccc;
+  border: none;
+  width: 40px;
+  height: 30px;
+  color: #111;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.delete-btn:hover { background: #f1eeee; }
+
+
+
+
+
+
+
+.modal-return {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  display: grid; place-items: center;
+  z-index: 1000;
+}
+
+.modal-return-card {
+  width: min(520px, 92vw);
+  background: #0b1220;
+  color: #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+  overflow: hidden;
+}
+
+.modal-return-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.modal-return-header .return-x {
+  background: transparent; border: 0; font-size: 20px; line-height: 1;
+  color: #94a3b8; cursor: pointer;
+}
+
+.modal-return-body { padding: 16px; }
+
+.le { display: block; margin: 8px 0 6px; color: #cbd5e1; }
+
+.modal-return-body select{
+  width: 100%; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid #243047; background: #0f172a; color: #e5e7eb;
+  outline: none;
+}
+
+.modal-return-body select:focus{
+  border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+}
+
+.actions-return {
+  display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;
+}
+.actions-return button {
+  padding: 10px 14px; border: 0; border-radius: 10px; cursor: pointer;
+  background: #1f2937; color: #fff;
+}
+.actions-return button:first-child { background: #2563eb; }
+.actions-return button[disabled] { opacity: .5; cursor: not-allowed; }
+
+.muted-return { color: #9ca3af; }
+.error-return { color: #f87171; margin-top: 10px; }
+
+
+
+
+/* Backdrop */
+.m-add-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  display: grid; place-items: center;
+  z-index: 1100;
+}
+
+/* Card */
+.m-add-card {
+  width: min(520px, 92vw);
+  background: #0b1220;  /* داكن */
+  color: #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+/* Header */
+.m-add-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.m-add-title { margin: 0; font-size: 1.1rem; }
+.m-add-x {
+  background: transparent; border: 0; color: #94a3b8;
+  font-size: 20px; cursor: pointer; line-height: 1;
+}
+
+/* Form */
+.m-add-form { padding: 16px; }
+.m-add-field { margin-bottom: 12px; }
+.m-add-label { display: block; margin-bottom: 6px; color: #cbd5e1; }
+.m-add-input {
+  width: 90%; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid #243047; background: #0f172a; color: #e5e7eb;
+  outline: none;
+}
+.m-add-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+}
+
+/* Actions */
+.m-add-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.m-add-primary, .m-add-secondary {
+  padding: 10px 14px; border: 0; border-radius: 10px; cursor: pointer;
+}
+.m-add-primary { background: #2563eb; color: #fff; }
+.m-add-secondary { background: #1f2937; color: #fff; }
+.m-add-primary:hover { transform: translateY(-1px); }
+.m-add-error { color: #f87171; margin-top: 10px; }
+
+/* زر فتح النافذة */
+.m-add-btn {
+  color: #fff; border: 0; border-radius: 10px;
+   cursor: pointer;
+}
+.m-add-btn:hover { transform: translateY(-1px); }

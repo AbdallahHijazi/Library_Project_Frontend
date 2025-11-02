@@ -1,0 +1,249 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.welcome-section {
+  width: 70%;
+  padding: 20px;
+  background-color: #643b3b;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-section h2 {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.welcome-section p {
+  font-size: 1.2rem;
+  color: #ddd;
+  margin-top: 10px;
+}
+
+.sidebar {
+  width: 85px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0; 
+  background-color: #0b1220;
+  padding-left: 5px;
+  color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.page-title h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #fff;
+}
+
+.page-title p {
+  color: #ddd;
+  font-size: 1rem;
+}
+
+.page-list {
+  font-family: 'Courier New', Courier, monospace;
+  list-style-type: none;
+  padding: 0;
+}
+
+.page-list li {
+   padding-top: 10px;
+   margin-bottom: 15px;
+}
+
+.page-list a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 1.1rem;
+}
+
+.page-list a:hover {
+  text-decoration: underline;
+  color: #3498db;
+}
+.fa-sign-out-alt {
+  color: #f44336;
+  font-size: 20px; 
+} */
+
+/* ===== الأساسيات ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+
+/* تنسيق عام */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* قسم ترحيبي (إن وجد) */
+.welcome-section {
+  width: 70%;
+  padding: 20px;
+  background-color: #643b3b;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+.welcome-section h2 { font-size: 2rem; color: #fff; }
+.welcome-section p { font-size: 1.2rem; color: #ddd; margin-top: 10px; }
+
+/* ===== الشريط الجانبي (وضع سطح المكتب) ===== */
+.sidebar {
+  width: 85px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;               /* ملاحظة: هذا يضعه يسار الشاشة */
+  background-color: #0b1220;
+  padding-left: 5px;
+  color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+  border-radius: 8px;
+}
+.page-title { margin: 14px 0 20px; text-align: center; }
+.page-title h3 {
+  font-size: 1.5rem; color: #fff; font-family: 'Courier New', Courier, monospace;
+}
+.page-title p { color: #ddd; font-size: 1rem; }
+
+.page-list {
+  list-style: none;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+.page-list li { padding-top: 10px; margin-bottom: 15px; }
+.page-list a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.page-list a:hover { text-decoration: underline; color: #3498db; }
+.fa-sign-out-alt { color: #f44336; font-size: 20px; }
+
+/* تعويض مساحة السايدبار لِلمحتوى عند الشاشات الواسعة */
+@media (min-width: 993px) {
+  body { padding-left: 95px; } /* حتى لا يغطي السايدبار المحتوى */
+}
+
+/* ===== وضع الموبايل/التابلت: تحويل السايدبار إلى شريط علوي ===== */
+@media (max-width: 992px) {
+  /* الشريط يصبح شريطًا علويًا */
+  .sidebar {
+    position: sticky;   /* يبقى مثبتًا أعلى عند التمرير */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    padding: 10px 12px;
+    border-radius: 0;
+    display: block;
+    z-index: 100;
+  }
+
+  /* العناصر تصبح أفقية */
+  .page-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;           /* لو العناصر زادت عن العرض */
+    scrollbar-width: thin;
+  }
+  .page-list li {
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;             /* يمنع تمدد الزر */
+  }
+  .page-list a {
+    font-size: .95rem;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.08);
+    white-space: nowrap;
+  }
+  /* إخفاء فواصل الأسطر في الموبايل للحفاظ على صف واحد */
+  .page-list a br { display: none; }
+
+  /* تحسين المسافات في الصفحة عند الموبايل */
+  body { padding-left: 0; }
+  .home-container { padding-top: 12px; }
+}
+
+/* ===== تحسينات شكلية بسيطة (اختياري) ===== */
+.page-list a i { font-size: 1rem; }
+.page-list a.active,
+.page-list a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52,152,219,.25);
+  text-decoration: none;
+}
+/* ===== تعديلات وضع الموبايل ===== */
+@media (max-width: 992px) {
+  /* الشريط يملأ عرض الصفحة ويبقى مثبت أعلى */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 110%;
+    border-radius: 0;
+  }
+
+  /* تصغير الأيقونات والنصوص والمسافات */
+  .page-list a i { font-size: 0.9rem; }   /* الأيقونة أصغر */
+  .page-list a {
+    font-size: 0.9rem;                    /* النص أصغر قليلًا */
+    gap: 4px;                             /* مسافة أصغر بين الأيقونة والنص */
+    padding: 6px 8px;                     /* حشوة أقل */
+  }
+
+  /* عكس الترتيب تلقائيًا إذا كانت الصفحة LTR — على الموبايل فقط */
+  :root:dir(ltr) .sidebar .page-list,
+  html[dir="ltr"] .sidebar .page-list {
+    flex-direction: row-reverse;
+  }
+
+  /* إبقاء الترتيب الطبيعي إذا كانت RTL */
+  :root:dir(rtl) .sidebar .page-list,
+  html[dir="rtl"] .sidebar .page-list {
+    flex-direction: row;
+  }
+
+  /* تأكيد إخفاء فواصل الأسطر بالموبايل */
+  .page-list a br { display: none; }
+}
+
+

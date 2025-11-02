@@ -1,10 +1,6 @@
-/*
-  تنسيق حاوية لوحة التحكم الرئيسية
-  نفترض أن app-home ستأخذ مساحة جانبية أو علوية (Sidebar / Header)
-*/
 .dashboard-container {
     padding: 20px;
-    margin-right: 250px; /* ترك مساحة إذا كان HomeComponent شريطاً جانبياً (Sidebar) */
+    margin-left: 90px; 
     font-family: 'Arial', sans-serif;
     color: #333;
     background-color: #f4f7f6;
@@ -12,18 +8,17 @@
     direction: rtl; /* دعم اللغة العربية */
 }
 
-/* تنسيق بطاقة الترحيب */
 .welcome-card {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
     margin-bottom: 30px;
-    border-right: 5px solid #007bff; /* شريط أزرق مميز */
+    border-right: 5px solid #1f1b5a; /* شريط أزرق مميز */
 }
 
 .welcome-card h1 {
-    color: #007bff;
+    color: #1f1b5a;
     font-size: 2.2em;
     margin-bottom: 10px;
 }
@@ -35,7 +30,6 @@
     margin-bottom: 25px;
 }
 
-/* تنسيق شبكة الإحصائيات */
 .stats-grid {
     display: flex;
     gap: 20px;
@@ -67,7 +61,7 @@
 
 .stat-label {
     font-size: 0.9em;
-    color: #007bff;
+    color: #1f1b5a;
     font-weight: 600;
 }
 

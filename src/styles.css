@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* عرض السايدبار الثابت */
+:root { --sidebar-width: 85px; }
+
+/* ✅ يزيح كل صفحة فيها bk-page بعرض السايدبار */
+.bk-page {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: margin-left .25s ease;
+}
+
+/* لو مستقبلاً صغّرت السايدبار */
+.sidebar-collapsed .bk-page { margin-left: 60px; }
+
+/* تأكد أن المودالات فوق كل شيء وما تتأثر بالمارجن */
+.modal-backdrop,
+.modal-overlay,
+.modal-edit {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  z-index: 1000;
+}

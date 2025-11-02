@@ -1,0 +1,219 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -20%, rgba(173, 216, 230, 0.4), transparent 60%),
+    radial-gradient(800px 400px at 110% -10%, rgba(144, 238, 144, 0.35), transparent 60%),
+    linear-gradient(180deg, #e3f2fd 0%, #e0f7fa 60%, #e8f5e9 100%);
+  color: #0d1b2a;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== Toolbar بتدرّج متحرك فاتح ===== */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  color: #0f2943;
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+
+.moving-gradient {
+  background: linear-gradient(90deg, #81d4fa, #4dd0e1, #a5d6a7, #64b5f6);
+  background-size: 300% 100%;
+  animation: sweep 10s ease-in-out infinite;
+  backdrop-filter: saturate(1.3) blur(8px);
+}
+@keyframes sweep {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.toolbar__brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; letter-spacing: .5px;
+  color: #004d61;
+}
+.toolbar__brand mat-icon { font-size: 26px; color: #00695c; }
+.spacer { flex: 1; }
+.toolbar__actions a[mat-button],
+.toolbar__actions a[mat-stroked-button] { margin-left: 8px; }
+
+/* ===== فقاعات الخلفية ===== */
+.bg {
+  position: fixed; inset: 0;
+  overflow: hidden; z-index: 0;
+  pointer-events: none;
+}
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(25px);
+  opacity: .25;
+  animation: float 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.b1 { width: 340px; height: 340px; background: #4dd0e1; left: -120px; top: 120px; }
+.b2 { width: 280px; height: 280px; background: #81c784; right: -80px; top: 220px; animation-duration: 22s; }
+.b3 { width: 200px; height: 200px; background: #64b5f6; left: 20%; bottom: -80px; animation-duration: 26s; }
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); opacity: .15; }
+  50% { transform: translateY(-30px) translateX(10px); opacity: .3; }
+  100% { transform: translateY(0) translateX(0); opacity: .15; }
+}
+
+/* ===== الهيرو ===== */
+.hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: 64px 16px 96px;
+}
+.hero__card {
+  width: min(600px, 92vw);
+  color: #0f2943;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(144, 202, 249, 0.45);
+  border-radius: 20px;
+  box-shadow:
+    0 10px 25px rgba(100, 181, 246, 0.25),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  transform: translateY(12px);
+  opacity: 0;
+  animation: rise-in 600ms 120ms ease-out forwards;
+}
+@keyframes rise-in {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hero__avatar {
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #4dd0e1, #81c784);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(77,208,225,0.45);
+}
+.hero__avatar mat-icon { font-size: 26px; }
+
+mat-card-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #0277bd;
+}
+mat-card-subtitle {
+  color: #388e3c;
+  text-align: right;
+  font-weight: 600;
+}
+.lead {
+  margin: 12px 0 4px;
+  color: #1e3a5f;
+  line-height: 1.8;
+  text-align: right;
+  padding-bottom: 20px;
+}
+
+/* ===== الأزرار بشكل أفقي ===== */
+.hero__actions.row {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px 16px;
+  margin-right: 22%;
+  justify-content: flex-end;
+}
+
+.hero__actions.row a[mat-raised-button],
+.hero__actions.row a[mat-stroked-button] {
+  min-width: auto;
+  min-height: 44px;
+  padding: 0 20px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+/* لون الأزرار */
+.hero__actions.row a[mat-raised-button] {
+  background: linear-gradient(135deg, #81c784, #4dd0e1) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(77,208,225,0.35);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.hero__actions.row a[mat-raised-button]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(77,208,225,0.45);
+}
+
+.hero__actions.row a[mat-stroked-button] {
+  border-color: #4dd0e1 !important;
+  color: #0277bd !important;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.hero__actions.row a[mat-stroked-button]:hover {
+  border-color: #81c784 !important;
+  color: #388e3c !important;
+}
+
+/* استجابة */
+@media (min-width: 768px) {
+  .hero__actions.row a {
+    min-width: 140px;
+  }
+}
+
+
+/* ======================================================= */
+/* 📱 التجاوبية (RESPONSIVE) - تبدأ من 767px وأقل */
+/* ======================================================= */
+
+@media (max-width: 767px) {
+    
+    /* 1. تعديل حاوية البطاقة لجعلها أكثر ملاءمة للهواتف */
+    .hero {
+        /* إزالة الهوامش العمودية الكبيرة على الهواتف */
+        padding: 40px 10px 60px;
+    }
+    
+    .hero__card {
+        /* جعل البطاقة تأخذ عرضاً أقصى بدون قيود سطح المكتب */
+        width: 100%;
+        max-width: none;
+        
+        /* تقليل الهوامش الداخلية على الهواتف */
+        padding: 20px 15px; 
+    }
+    
+    /* 2. جعل أزرار الإجراءات عمودية وتأخذ العرض الكامل */
+    .hero__actions.row {
+        /* إلغاء الهامش الأيمن الكبير الذي يضيع المساحة على اليمين */
+        margin-right: 0;
+        /* جعل الأزرار تتراكم عمودياً */
+        flex-direction: column;
+        /* تمديد جميع العناصر لتأخذ العرض 100% */
+        align-items: stretch; 
+        /* تقليل التباعد بين الأزرار */
+        gap: 8px; 
+        /* تعديل الهامش الداخلي للقسم */
+        padding: 0 15px 15px;
+    }
+
+    /* 3. ضمان أن كل زر يأخذ العرض 100% */
+    .hero__actions.row a[mat-raised-button],
+    .hero__actions.row a[mat-stroked-button] {
+        width: 100%; 
+        min-width: unset; /* إلغاء أي قيود على الحد الأدنى للعرض */
+        box-sizing: border-box; /* لضمان أن العرض 100% يشمل padding */
+    }
+
+    /* 4. تصغير الفقاعات المتحركة (لمظهر أنظف) */
+    .bubble {
+        filter: blur(15px); 
+        opacity: 0.15; 
+    }
+    .b1 { width: 200px; height: 200px; left: -80px; top: 50px; }
+    .b2 { width: 150px; height: 150px; right: -50px; top: 150px; }
+    .b3 { display: none; } /* إخفاء فقاعة لتقليل العناصر */
+}

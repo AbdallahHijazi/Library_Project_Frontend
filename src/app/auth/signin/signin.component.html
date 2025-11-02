@@ -1,0 +1,139 @@
+<!-- <mat-card class="signin-card">
+  <h2>إنشاء حساب جديد</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>الاسم الكامل</mat-label>
+      <input matInput formControlName="fullName" placeholder="اسمك الكامل" />
+      <mat-error *ngIf="form.get('fullName')?.hasError('required')">مطلوب</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>البريد الإلكتروني</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="example@mail.com" />
+      <mat-error *ngIf="form.get('email')?.hasError('required')">مطلوب</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">البريد غير صالح</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>كلمة المرور</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="********" />
+      <mat-error *ngIf="form.get('password')?.hasError('required')">مطلوب</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>تأكيد كلمة المرور</mat-label>
+      <input matInput formControlName="confirmPassword" type="password" placeholder="********" />
+      <mat-error *ngIf="form.get('confirmPassword')?.hasError('required')">مطلوب</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" type="submit">
+      إنشاء حساب
+    </button>
+  </form>
+
+  <p class="login-link">
+    لديك حساب بالفعل؟ <a routerLink="/login">تسجيل الدخول</a>
+  </p>
+</mat-card> -->
+
+
+<!-- <mat-card class="signin-card" dir="rtl">
+  <h2>إنشاء حساب جديد</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>الاسم الكامل</mat-label>
+      <input matInput formControlName="fullName" placeholder="اسمك الكامل" />
+      <mat-error *ngIf="hasError('fullName','required')">مطلوب</mat-error>
+      <mat-error *ngIf="hasError('fullName','minlength')">الحد الأدنى 3 أحرف</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>البريد الإلكتروني</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="example@mail.com" />
+      <mat-error *ngIf="hasError('email','required')">مطلوب</mat-error>
+      <mat-error *ngIf="hasError('email','email')">البريد غير صالح</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>كلمة المرور</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="********" />
+      <mat-error *ngIf="hasError('password','required')">مطلوب</mat-error>
+      <mat-error *ngIf="hasError('password','minlength')">الحد الأدنى 6 أحرف</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>تأكيد كلمة المرور</mat-label>
+      <input matInput formControlName="confirmPassword" type="password" placeholder="********" />
+      <mat-error *ngIf="hasError('confirmPassword','required')">مطلوب</mat-error>
+      <mat-error *ngIf="passwordMismatch()">كلمتا المرور غير متطابقتين</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>الدور</mat-label>
+      <mat-select formControlName="roleId">
+        <mat-option [value]="" disabled>— اختر الدور —</mat-option>
+        <mat-option *ngFor="let r of roles()" [value]="r.id">{{ r.name }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="hasError('roleId','required')">مطلوب</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loading()">
+      {{ loading() ? 'جاري الإنشاء…' : 'إنشاء حساب' }}
+    </button>
+
+    <div *ngIf="errorMsg()" style="color:#ef4444;margin-top:8px">{{ errorMsg() }}</div>
+    <div *ngIf="successMsg()" style="color:#10b981;margin-top:8px">{{ successMsg() }}</div>
+  </form>
+
+  <p class="login-link">
+    لديك حساب بالفعل؟ <a routerLink="/login">تسجيل الدخول</a>
+  </p>
+</mat-card> -->
+
+
+<mat-card class="signin-card" dir="rtl">
+  <h2>إنشاء حساب جديد</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>الاسم الكامل</mat-label>
+      <input matInput formControlName="fullName" placeholder="اسمك الكامل" />
+      <mat-error *ngIf="has('fullName','required')">مطلوب</mat-error>
+      <mat-error *ngIf="has('fullName','minlength')">الحد الأدنى 3 أحرف</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>البريد الإلكتروني</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="example@mail.com" />
+      <mat-error *ngIf="has('email','required')">مطلوب</mat-error>
+      <mat-error *ngIf="has('email','email')">البريد غير صالح</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>كلمة المرور</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="********" />
+      <mat-error *ngIf="has('password','required')">مطلوب</mat-error>
+      <mat-error *ngIf="has('password','minlength')">الحد الأدنى 6 أحرف</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>تأكيد كلمة المرور</mat-label>
+      <input matInput formControlName="confirmPassword" type="password" placeholder="********" />
+      <mat-error *ngIf="has('confirmPassword','required')">مطلوب</mat-error>
+      <mat-error *ngIf="form.hasError('passwordMismatch') && form.touched">كلمتا المرور غير متطابقتين</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loading">
+      {{ loading ? 'جاري الإنشاء…' : 'إنشاء حساب' }}
+    </button>
+
+    <div *ngIf="errorMsg" style="color:#ef4444;margin-top:8px">{{ errorMsg }}</div>
+    <div *ngIf="successMsg" style="color:#10b981;margin-top:8px">{{ successMsg }}</div>
+  </form>
+
+  <p class="login-link">
+    لديك حساب بالفعل؟ <a style="cursor: pointer;" routerLink="/login">تسجيل الدخول</a>
+  </p>
+</mat-card>

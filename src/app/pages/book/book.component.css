@@ -1,0 +1,596 @@
+            /* كامل الصفحة  */
+.container { 
+  display: block;
+  margin-top: -20px;
+}
+
+.filters-top { 
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    gap: 15px; 
+  }
+.filters-top input[type="text"] { 
+    width: 100%;
+  padding: 10px; border: 1px solid #ddd; border-radius: 10px; 
+}
+.card-Felrir{
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+}
+.button-Add{
+  background-color: #0f1a35;
+  height: 45px;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+                  /* <!-- Modal: تفاصيل الكتاب --> */
+.modal-card {
+  width: clamp(340px, 60vw, 560px);
+  background: #0b1220;   
+  color: #fff;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  padding: 16px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-header h3 {
+   margin: 0 0 8px; text-align: center; 
+  }
+.modal-body {
+  overflow: auto;
+  padding: 8px 4px;
+}
+.muted {
+   font-size: 12px; color: #9ca3af; 
+  }
+.loans { 
+  list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; 
+}
+
+.loans li { 
+  display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px dashed #334155; padding-bottom: 8px; 
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;    
+  margin-top: 12px;
+}
+.modal-actions button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+.card-body p { 
+  margin: 6px 0; text-align: right
+}
+.filters { 
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 15px; 
+}
+.filters input[type="text"] { 
+  padding: 10px; border: 1px solid #ddd; border-radius: 8px;
+ }
+.filters select {
+    width: 100px;
+    flex-grow: 1; 
+    min-width: 150px; 
+    padding: 10px; 
+    border-radius: 8px; 
+    background-color: #1f2937; 
+    color: #e5e7eb;
+    border-color: #374151; }
+.content {
+   display: block; grid-template-columns: 1fr 320px; gap: 16px; padding: 10px;
+}
+.catalog h2 { 
+  margin: 8px 0 16px; 
+}
+.empty { 
+  margin-top: 12px; color: #6b7280; 
+}
+.grid { 
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; 
+}
+.card {
+   border: 1px solid #e8e8e8; border-radius: 12px; padding: 12px; 
+        background: #111827; color: #fff;margin-bottom: 10px; 
+}
+.card .filters .card-actions { 
+  margin-inline-start: auto; 
+}
+.card .filters { 
+  flex-wrap: wrap; 
+}
+.card-header h3 { 
+  margin: 0; font-size: 18px; text-align: center
+}
+.card-header small {
+   color: #cbd5e1;display: block; text-align: right;padding-top: 15px; 
+  }
+
+                                     /* sidebar  */
+.sidebar { 
+  border: 1px solid #e8e8e8; border-radius: 12px; padding: 12px;
+   background: #0b1220; color: #fff; height: fit-content; 
+}
+.toggle {
+  display: flex;
+    align-items: center; 
+    gap: 10px;
+    margin-left: 130px;
+    cursor: pointer;
+    user-select: none; 
+    position: relative; 
+    padding-right: 0; 
+    white-space: nowrap;
+    color: #e5e7eb; 
+}
+.toggle input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0; 
+}
+
+
+.toggle .slider {
+    position: relative;
+    cursor: pointer;
+    background-color: #374151; 
+    transition: 0.4s;
+    width: 45px; 
+    height: 25px; 
+    border-radius: 34px; 
+    flex-shrink: 0; 
+}
+.toggle .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3.5px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+.toggle input:checked + .slider {
+    background-color: #10b981; 
+}
+.toggle input:checked + .slider:before {
+    transform: translateX(23px); 
+}
+.toggle input:focus + .slider {
+    box-shadow: 0 0 1px #10b981;
+}
+.quick-links {
+   display: flex; flex-direction: column; gap: 6px; margin-top: 12px;
+}
+.quick-links a { 
+  color: #93c5fd; text-decoration: underline;
+ }
+.quick-links button { 
+  color: #0b1220;width: 80px; height: 25px; border-radius: 5px;
+}
+             
+                          /* مودال الاستعارة  */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal-content {
+  background-color: #0b1220;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.inputDate{
+  width: 90%;
+}
+
+                      /* مودال الحذف  */
+
+.modal-overlay {
+  position: fixed;
+  margin-top: 200px;
+  margin-left: 45%;
+  top: 0; left: 0;
+  max-width: 100px;
+  height: 200px;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 8px; 
+  background: #ccc;
+  border: none;
+  width: 40px;
+  height:30px;
+  color: white;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.delete-btn:hover {
+  background:#f1eeee;
+}
+.modal {
+  position:absolute;
+  background: #14213a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  width: 250px;
+  height: 100px;
+  text-align: center;
+
+}
+.modal button{
+  margin-top: 7%;
+ border-radius:  5px;
+ text-align: center;
+}
+.modal button:first-child{
+ background-color: rgb(241, 25, 69);
+ border:10px;
+
+}
+.modal button:last-child{
+ background-color: rgb(185, 197, 194);
+ box-shadow: inset;
+ border:10px;
+}
+
+
+                              /* مودال التعديل   */
+.modal-edit {
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  display: block;
+  width: 400px;
+  height: 380px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #0b1220;
+  z-index: 1001;
+  color: #87d1a6;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+.modaledit form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 15px;
+}
+.labelinput{
+  height: 50px;
+  margin-bottom: 5px;
+  width: 100% ;
+  text-align: right;
+  display: flex;
+}
+.lableclass{
+    position: relative;
+    font-size: large;
+    font-weight: bold;
+    text-align: right;
+    display: block;
+    padding-right: 10px;
+    padding-top: 15px;
+    border-radius: 6px;
+    margin-left: 70%;
+    height: 30px;
+    width: 30%;
+    color: #9ac79d;
+}
+.textclass{
+    position:fixed;
+    border-radius: 6px;
+    height: 25px;
+    width: 65%;
+    margin-bottom: 30%;
+    align-items: center;
+    text-align: center;
+}
+.singellist{
+  height: 30px;
+  margin-bottom: 10px;
+  width: 177px;
+  margin-right: 30%;
+  border-radius: 6px;
+  text-align: center;
+  padding-top: 2px;
+}
+.modal-actions-edit {
+  margin-top: 10px;
+  margin-right: 35%;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.modal-actions-edit button {
+  padding: 8px 20px;
+  border: none;
+  margin: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.modal-actions-edit button:first-child {
+  margin-left: 40%;
+  background: #0b417c;
+  color: white;
+}
+.modal-actions-edit button:last-child {
+  background: #9c8a8afa;
+}
+
+                                    /* مخربطات  */
+
+.ok { color: #10b981; }
+.bad { color: #ef4444; }
+.card-actions { 
+  display: flex; gap: 8px; margin-top: 10px; }
+.card-actions button { 
+  padding: 6px 6px; border-radius: 8px; border: none; cursor: pointer; margin-right: 4px; }
+.card-actions button[disabled] { 
+  cursor: not-allowed; opacity: 0.6; }
+.btn-actions [disabled]{
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    cursor: not-allowed; 
+    opacity: 0.6;
+}
+.link { 
+  background: transparent; border: none; color: #60a5fa; cursor: pointer; }
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+input, select {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+button[type="submit"] {
+  margin-left: 28%;
+  background-color: #14213ac9;
+  color: white;
+}
+button[type="submit"]:hover {
+  background-color: #14213a;
+}
+button[type="button"] {
+  background-color: #a31a0b8f;
+  color: white;
+}
+button[type="button"]:hover {
+  background-color: #c0392b;
+}
+.pagination-controls {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+.page-info {
+    font-size: 0.9rem;
+    color: #666;
+}
+.pagination-button {
+    background-color: #0b1220;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.pagination-button:hover:not([disabled]) {
+    background-color: #153250;
+}
+.pagination-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.page-number {
+    font-weight: bold;
+    margin: 0 10px;
+}
+.copies-filter-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
+    width: 100%; 
+    margin-top: 15px;
+}
+.copy-input-item {
+  margin-left: 20px;
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+}
+.copy-input-item input[type="number"] {
+    width: 50%; 
+    padding: 10px;
+    margin-bottom: 0; 
+    border-radius: 5px;
+    background-color: #1f2937;
+    color: #e5e7eb;
+    border: 1px solid #374151;
+}
+.copy-input-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #cbd5e1; 
+}
+.add-book-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    min-height: 80vh; /* لجعلها تظهر في المنتصف تقريباً */
+}
+.modal-backdrop-add {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; 
+}
+.add-book-card {
+     width: 100%;
+     max-width : 300px;
+     background: #111827;
+     color: #fff;
+     border: 1px solid #334155;
+     border-radius: 12px;
+     padding: 25px;
+     box-shadow: 0 10px 30px rgba(0,0,0,.35);
+     text-align: right;
+     transform: scale(1);
+     transition: transform 0.3s ease-out;
+}
+.add-book-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #93c5fd;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #cbd5e1;
+}
+input, select {
+    width: 90%; 
+    padding: 12px;
+    margin-bottom: 0; 
+    border-radius: 8px;
+    border: 1px solid #374151; 
+    background-color: #1f2937;
+    color: #e5e7eb;
+}
+input:focus, select:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+.form-actions {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 10px;
+    margin-top: 30px;
+}
+.form-actions button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+.form-actions button[type="submit"] {
+    background-color: #162b6e; 
+    color: white;
+}
+.form-actions button[type="submit"]:hover {
+    background-color: #3f5074;
+}
+.form-actions button.cancel-btn {
+    background-color: #6b7280;
+    color: white;
+}
+.alert {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.alert.success {
+    background-color: #060b4e;
+    color: #a7f3d0;
+    border: 1px solid #10b981;
+}
+.alert.error {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+    border: 1px solid #ef4444;
+}
+.quick-links .add-book-btn {
+    height: 40px;
+    width: 40%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+    text-decoration: none; 
+}
+.pagenation{
+    display: block;
+}

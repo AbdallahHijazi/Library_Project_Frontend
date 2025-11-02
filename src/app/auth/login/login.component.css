@@ -1,0 +1,124 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 40px 16px;
+  background:
+    radial-gradient(1400px 800px at 20% -10%, rgba(173, 216, 230, 0.35), transparent 60%),
+    radial-gradient(900px 600px at 100% -20%, rgba(144, 238, 144, 0.25), transparent 60%),
+    linear-gradient(180deg, #e3f2fd 0%, #e8f5e9 70%, #e0f7fa 100%);
+}
+
+/* ===== بطاقة تسجيل الدخول (فاتحة + Glass + Motion) ===== */
+.login-card {
+  max-width: 480px;
+  margin: 72px auto;
+  padding: 32px 26px;
+  text-align: center;
+  color: #0f2943;
+
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(100, 181, 246, 0.35);
+  border-radius: 18px;
+  box-shadow:
+    0 10px 25px rgba(100, 181, 246, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  transform: translateY(12px) scale(0.985);
+  opacity: 0;
+  animation: card-in 600ms 120ms ease-out forwards;
+}
+@keyframes card-in { to { transform: translateY(0) scale(1); opacity: 1; } }
+
+/* العنوان */
+.login-card h2 {
+  margin: 4px 0 16px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #0277bd;
+  text-shadow: 0 2px 12px rgba(79, 195, 247, 0.45);
+}
+
+/* الحقول */
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* خلفية خفيفة لحقل الماتريال */
+.login-card .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  transition: background 220ms ease, box-shadow 220ms ease;
+}
+
+/* حدود الحقل */
+.login-card .mdc-notched-outline__leading,
+.login-card .mdc-notched-outline__trailing,
+.login-card .mdc-notched-outline__notch {
+  border-color: rgba(79, 195, 247, 0.45) !important;
+}
+
+/* تركيز الحقل (turquoise) */
+.login-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.login-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing,
+.login-card .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch {
+  border-color: #26a69a !important;
+}
+.login-card .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background: rgba(227, 242, 253, 0.9);
+  box-shadow: 0 0 0 4px rgba(79,195,247,0.2);
+}
+
+/* رسائل الخطأ */
+.login-card .mat-mdc-form-field-subscript-wrapper,
+.login-card mat-error {
+  color: #d32f2f !important;
+  font-weight: 500;
+}
+
+/* ===== زر الدخول (تدرّج فاتح + Hover) ===== */
+.login-card button[mat-raised-button].full-width {
+  margin-top: 4px;
+  min-height: 48px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #64b5f6, #4dd0e1, #81c784) !important; /* أزرق فاتح -> سماوي -> أخضر فاتح */
+  color: #fff !important;
+  box-shadow:
+    0 8px 18px rgba(79,195,247,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.22);
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+}
+.login-card button[mat-raised-button].full-width:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 22px rgba(38,166,154,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.26);
+  filter: brightness(1.06);
+}
+.login-card button[mat-raised-button].full-width:active {
+  transform: translateY(0);
+}
+
+/* ===== رابط إنشاء الحساب ===== */
+.signup-link {
+  margin-top: 14px;
+  color: #1976d2;
+}
+.signup-link a {
+  color: #009688;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 160ms ease, text-shadow 160ms ease;
+}
+.signup-link a:hover {
+  color: #43a047;
+  text-shadow: 0 0 12px rgba(79, 195, 247, 0.4);
+}
+
+/* شاشات صغيرة */
+@media (max-width: 360px) {
+  .login-card { padding: 22px 18px; }
+}

@@ -1,0 +1,42 @@
+<app-home></app-home>
+
+<div class="dashboard-container" dir="rtl">
+    
+    <div class="welcome-card">
+        <h1>مرحباً بك، {{ userName }}! 👋</h1>
+        <p class="intro-text">
+            هذه لوحة التحكم الرئيسية لإدارة المكتبة. يمكنك البدء في إدارة الأعضاء والكتب 
+            والمعاملات من خلال القائمة الجانبية.
+        </p>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">📚</span>
+                <p class="stat-label">إجمالي الكتب المتاحة</p>
+                <span class="stat-number">{{ availableBooksCount }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">🧑‍🤝‍🧑</span>
+                <p class="stat-label">إجمالي الأعضاء المسجلين</p>
+                <span class="stat-number">{{ totalMembersCount }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">🔔</span>
+                <p class="stat-label">إجمالي الاستعارات الجارية</p>
+                <span class="stat-number">{{ currentBorrowingsCount }}</span>
+            </div>
+        </div>
+
+        <p class="last-login">آخر تسجيل دخول: {{ lastLoginDate | date:'medium' }}</p>
+    </div>
+    
+    <!-- <div class="additional-info">
+        <h3>مهام سريعة</h3>
+        <ul>
+            <li><a routerLink="/members" class="quick-link">إدارة الأعضاء</a></li>
+            <li><a routerLink="/books" class="quick-link">عرض الكتب</a></li>
+            <li><a routerLink="/reports" class="quick-link">التقارير</a></li>
+        </ul>
+    </div> -->
+
+</div>

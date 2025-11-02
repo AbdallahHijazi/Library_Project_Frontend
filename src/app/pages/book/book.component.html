@@ -1,0 +1,337 @@
+<app-home></app-home>
+
+<div class="bk-page" dir="rtl">
+  <div class="container">
+
+    <div
+      class="modal-backdrop"
+      *ngIf="isDetailsOpen"
+      (click)="onBackdropClick($event)"
+      dir="rtl"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>تفاصيل الكتاب</h3>
+        </div>
+
+        <div class="modal-body">
+          <div *ngIf="loading">جاري تحميل التفاصيل…</div>
+          <div *ngIf="!loading && errorMsg" class="muted">{{ errorMsg }}</div>
+
+          <ng-container *ngIf="!loading && !errorMsg && selectedBook as sb">
+            <p><strong>اسم الكتاب  : </strong> {{ sb.title }}</p>
+            <p><strong>المؤلف : </strong> {{ sb.author }}</p>
+            <p><strong >التصنيف: </strong> {{ sb.category }}</p>
+            <p><strong>تاريخ الإصدار : </strong>
+              <ng-container *ngIf="sb.year as y">
+                <span *ngIf="y instanceof Date; else rawYear">{{ y | date:'yyyy' }}</span>
+                <ng-template #rawYear>{{ y }}</ng-template>
+              </ng-container>
+            </p>
+            <p><strong>النسخ المتاحة :  </strong> {{ sb.copiesCount }}</p>
+
+            <h4 style="margin-top:10px;">سجلات الاستعارة</h4>
+            <ul class="loans" *ngIf="sb.borrowingReads?.length; else noLoans">
+              <li *ngFor="let x of sb.borrowingReads">
+                <div>
+                  <!-- <strong>{{ x.id | slice:0:8 }}…</strong> -->
+                   <strong>المستعير: {{ getMemberName(x.memberId) }}</strong>
+                  <div class="muted">
+                    {{ x.borrowDate | date:'medium' }} → {{ x.returnDate ? (x.returnDate | date:'medium') : 'غير مُعاد بعد' }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ng-template #noLoans>
+              <div class="muted">لا توجد استعارات مسجّلة.</div>
+            </ng-template>
+          </ng-container>
+        </div>
+
+        <div class="modal-actions">
+          <button (click)="closeDetails()">إغلاق</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-Felrir">
+      <section class="filters-top">
+        <input
+            type="text"
+            placeholder="فلترة حسب التصنيف (أو جزء منه)..."
+            [(ngModel)]="category"
+            (ngModelChange)="applyFilters()" 
+        />
+      </section>
+      <button *ngIf="permissionService.has('Book.create')" class="button-Add" (click)="openAddBookModal()">
+        + إضافة كتاب جديد
+      </button>
+    </div>
+
+    <div class="content">
+      <section class="catalog">
+        <div *ngIf="loading">جاري التحميل…</div>
+        <div *ngIf="!loading && errorMsg" class="empty">{{ errorMsg }}</div>
+
+        <div class="grid" *ngIf="!loading && !errorMsg && books.length > 0">
+          <div class="card" *ngFor="let b of books; trackBy: trackById">
+            <div class="card-header">
+              <h3>{{ b.title }}</h3>
+              <small style="text-align: right">الكاتب : {{ b.author }}</small>
+            </div>
+
+            <div class="card-body">
+              <p>التصنيف: {{ b.category }}</p>
+              <p>
+                الحالة:
+                <strong [class.ok]="b.copiesCount > 0" [class.bad]="b.copiesCount === 0">
+                  {{ b.copiesCount > 0 ? (b.copiesCount + ' نسخة متاحة') : 'غير متاح حالياً' }}
+                </strong>
+              </p>
+            </div>
+
+            <div class="card-actions">
+              
+              <button *ngIf="permissionService.has('Borrowing.create')" [disabled]="b.copiesCount===0" (click)="openModal(b)">استعارة</button>
+              <button (click)="openDetails(b)">تفاصيل</button>
+              <button *ngIf="permissionService.has('Book.Delete')" (click)="openConfirmDialog(b.id)">حذف الكتاب</button>
+              <button *ngIf="permissionService.has('Book.Update')"  (click)="openEditDialog(b)">تعديل الكتاب</button>
+            </div>
+          </div>
+        </div>
+
+        <p *ngIf="!loading && !errorMsg && books.length === 0" class="empty">
+          لا توجد نتائج مطابقة.
+        </p>
+      </section>
+      
+      <!-- <aside class="sidebar">
+        <div class="card">
+          <div class="card-header">
+            <h3>التصفية الأساسية</h3>
+          </div>
+          <div class="card-body">
+            <section class="filters" style="margin-top: 6px;">
+              <select  [(ngModel)]="category" (ngModelChange)="applyFilters()">
+                <option [ngValue]="''">(اختياري) التصنيفات</option>
+                <option  *ngFor="let c of categories" [ngValue]="c">{{ c }}</option>
+              </select>
+
+            <label class="toggle">
+                <input type="checkbox" [(ngModel)]="onlyAvailable" (change)="applyFilters()" />
+                <span class="slider"></span> اعرض المتاح
+            </label>
+              
+            </section>
+          </div>
+          <div class="copies-filter-group">
+            <div class="copy-input-item">
+                <label for="minCopies">الحد الأدنى للنسخ:</label>
+                <input 
+                    type="number" 
+                    id="minCopies" 
+                    placeholder="مثلاً: 1"
+                    min="0"
+                    [(ngModel)]="minCopies" 
+                    (ngModelChange)="applyFilters()"
+                />
+            </div>
+            
+            <div class="copy-input-item">
+                <label for="maxCopies">الحد الأقصى للنسخ:</label>
+                <input 
+                    type="number" 
+                    id="maxCopies" 
+                    placeholder="مثلاً: 5"
+                    min="0"
+                    [(ngModel)]="maxCopies" 
+                    (ngModelChange)="applyFilters()"
+                />
+            </div>
+        </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>عمليات</h3>
+          </div>
+          <div class="card-body">
+            <div class="card-actions" style="margin-top: 6px;">
+              <button (click)="downloadExcel()">تصدير إكسل</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>روابط سريعة</h3>
+          </div>
+          <div class="quick-links">
+            <button *ngIf="permissionService.has('Book.create')" class="add-book-btn" (click)="openAddBookModal()">
+              + إضافة كتاب جديد
+            </button>
+          </div>
+        </div>
+      </aside> -->
+
+      <div *ngIf="!loading && !errorMsg && total > pageSize" class="pagination-controls">
+          <div class="page-info">
+            <span>عرض {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize < total ? page * pageSize : total }} من {{ total }} كتاب</span>
+          </div>
+
+          <div class="pagenation" >
+              <button 
+                  (click)="next()" 
+                  [disabled]="page * pageSize >= total" 
+                  class="pagination-button">
+                  التالي
+              </button>
+              <span class="page-number">
+                  الصفحة {{ page }}
+              </span>
+              <button 
+                  (click)="prev()" 
+                  [disabled]="page === 1" 
+                  class="pagination-button">
+                  السابق
+              </button>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- مودال الاستعارة -->
+<div *ngIf="isModalOpen" class="modal-backdrop" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2 style="color: aliceblue">إضافة استعارة</h2>
+    <form (ngSubmit)="submitBorrow()">
+      <label for="member">اختر العضو:</label>
+      <select id="member" [(ngModel)]="selectedMemberId" name="memberId">
+        <option *ngFor="let member of members" [value]="member.id">{{ member.fullName }}</option>
+      </select>
+
+      <label for="book">اختر الكتاب:</label>
+      <select style="margin-right: 40px;margin-top: -10px;" id="book" [(ngModel)]="selectedBookId" name="bookId" disabled> 
+        <option *ngFor="let book of books" [value]="book.id">{{ book.title }}</option>
+      </select>
+      <label for="borrowDate">تاريخ الاستعارة:</label>
+      <input class="inputDate" type="datetime-local" id="borrowDate" [(ngModel)]="borrowData" name="borrowDate" required />
+
+      <label for="returnDate">تاريخ الإرجاع:</label>
+      <input class="inputDate" type="datetime-local" id="returnDate" [(ngModel)]="returnDate" name="returnDate" required />
+
+      <button type="submit">تأكيد الاستعارة</button>
+      <button type="button" (click)="closeModal($event)">إلغاء</button>
+    </form>
+  </div>
+</div>
+
+<!-- حذف الكتاب -->
+<div class="modal-overlay" *ngIf="showConfirm">
+  <div class="modal">
+    <p *ngIf="confirmErrorMsg" style="color: #ffcccc; background: #a50000; padding: 8px; border-radius: 4px; margin-bottom: 10px;">
+        {{ confirmErrorMsg }}
+    </p>
+    <p style="color: aliceblue;"*ngIf="!confirmErrorMsg">هل أنت متأكد من حذف هذا الكورس؟</p>
+    <div class="actions">
+      <button (click)="confirmDelete()"*ngIf="!confirmErrorMsg">نعم</button>
+      <button (click)="closeConfirm()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- تعديل الكتاب -->
+<div class="modal-edit" *ngIf="showEdit">
+  <div class="modaledit">
+    <h3 style="text-align: center;">تعديل الكورس</h3>
+
+    <div class="labelinput">
+      <label class="lableclass">: اسم الكتاب</label>
+      <input class="textclass" type="text" [(ngModel)]="editingBook.title" /><br/>
+    </div>
+    <div class="labelinput">
+      <label class="lableclass">: اسم الكاتب</label>
+      <input class="textclass" type="text" [(ngModel)]="editingBook.author" /><br/>
+    </div>
+    <div class="labelinput">
+      <label class="lableclass">: الفئة</label>
+      <input class="textclass" type="text" [(ngModel)]="editingBook.category" /><br/>
+    </div>
+    <div class="labelinput">
+      <label class="lableclass">: السنه</label>
+      <input class="textclass" type="text" [(ngModel)]="editingBook.year" /><br/>
+    </div>
+    <div class="labelinput">
+      <label class="lableclass">: عدد النسخ</label>
+      <input class="textclass" type="text" [(ngModel)]="editingBook.copiesCount" /><br/>
+    </div>
+
+    <div class="modal-actions-edit">
+      <button (click)="updateBook()">حفظ</button>
+      <button (click)="closeEdit()">إلغاء</button>
+    </div>
+  </div>
+</div>
+<!-- ===================== مودال: إضافة كتاب ===================== -->
+<div class="modal-backdrop-add" *ngIf="isAddBookOpen" (click)="closeAddBookModal($event)">
+    <div class="add-book-card" >
+        <h2>إضافة كتاب جديد</h2>
+
+        <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+        <div *ngIf="errorMsg" class="alert error">{{ errorMsg }}</div>
+
+        <form (ngSubmit)="addBook()">
+            
+            <label for="title">عنوان الكتاب *</label>
+            <input type="text" id="title" [(ngModel)]="newBook.title" name="title" required>
+
+            <label for="author">المؤلف *</label>
+            <input type="text" id="author" [(ngModel)]="newBook.author" name="author" required>
+
+            <label for="category">التصنيف *</label>
+            <input type="text" id="category" [(ngModel)]="newBook.category" name="category" required>
+            
+            <label for="copiesCount">عدد النسخ المتاحة *</label>
+            <input type="number" id="copiesCount" [(ngModel)]="newBook.copiesCount" name="copiesCount" min="1" required>
+
+            <label for="year">تاريخ النشر (اختياري)</label>
+            <input type="date" id="year" [ngModel]="newBook.year | date:'yyyy-MM-dd'" (ngModelChange)="newBook.year = $event" name="year">
+
+
+            <div class="form-actions">
+                <button type="submit" [disabled]="loading">
+                    <span *ngIf="loading">جارٍ الإضافة...</span>
+                    <span *ngIf="!loading">إضافة الكتاب</span>
+                </button>
+                <button type="button" class="cancel-btn" (click)="closeAddBookModal(null)">إلغاء</button>
+            </div>
+        </form>
+    </div>
+    
+  <!-- <div class="add-book-card">
+        <h2>إضافة كتاب جديد</h2>
+
+        <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+        <div *ngIf="errorMsg" class="alert error">{{ errorMsg }}</div>
+
+        <form (ngSubmit)="addBook()">
+            <label for="title">عنوان الكتاب *</label>
+            <input type="text" id="title" [(ngModel)]="newBook.title" name="title" required>
+            <label for="year">تاريخ النشر (اختياري)</label>
+            <input type="date" id="year" [ngModel]="newBook.year | date:'yyyy-MM-dd'" (ngModelChange)="newBook.year = $event" name="year">
+
+            <div class="form-actions">
+                <button type="submit" [disabled]="loading">
+                    <span *ngIf="loading">جارٍ الإضافة...</span>
+                    <span *ngIf="!loading">إضافة الكتاب</span>
+                </button>
+                <button type="button" class="cancel-btn" (click)="resetForm()">إلغاء</button>
+            </div>
+        </form>
+    </div> -->
+</div>

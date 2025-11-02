@@ -1,0 +1,21 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<div class="home-container">
+
+  <!-- الجزء الأيمن: الشريط الجانبي -->
+  <div class="sidebar" [class.sidebar-hovered]="isHovered">
+    <div class="page-title">
+      <p *ngIf="isHovered"></p>
+    </div>
+    <ul class="page-list">
+      <li><a routerLink="/report" (click)="convertToReport()" ><i class="fas fa-home"></i> Home</a></li>
+      <li >
+          <a routerLink="/member" (click)="convertToMember()"><i class="fas fa-users"></i> Member</a></li>
+      <li><a routerLink="/book" (click)="convertToBook()"><i class="fas fa-book" ></i><br> Book</a></li>
+      <li><a routerLink="/borrow" (click)="convertToBorrow()"><i class="fas fa-clipboard-list"></i> Borrow</a></li>
+      <!-- <li ><i class="fas fa-user"></i> Profile</li> -->
+      <li><a routerLink="/logout" href="javascript:void(0)" (click)="logout()"><i class="fas fa-sign-out-alt"></i><br> Logout</a></li>
+    </ul>
+  </div>
+</div>

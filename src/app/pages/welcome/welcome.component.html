@@ -1,0 +1,65 @@
+<!-- شريط علوي بتدرّج متحرك -->
+<mat-toolbar class="toolbar moving-gradient">
+  <div class="toolbar__brand">
+    <mat-icon>local_library</mat-icon>
+    <span>Library</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <nav class="toolbar__actions">
+    <a mat-button routerLink="/login">Login</a>
+    <a mat-stroked-button color="accent" routerLink="/signin">Create account</a>
+  </nav>
+</mat-toolbar>
+
+<!-- خلفية فقاعات -->
+<div class="bg">
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+</div>
+
+<!-- الهيرو -->
+<section class="hero">
+  <mat-card class="hero__card">
+    <mat-card-header>
+      <div mat-card-avatar class="hero__avatar">
+        <mat-icon>menu_book</mat-icon>
+      </div>
+      <mat-card-title>أهلًا بك في مكتبة الاستعارة</mat-card-title>
+      <mat-card-subtitle>اقرأ أكثر، بسهولة وسرعة.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="lead">
+        هذا النظام يساعدك على استعراض الكتب، استعارتها وإرجاعها، ومتابعة تاريخ الاستعارات
+      
+        <br>:  باستخدام هذا النظام، يمكنك بسهولة
+
+        <br>البحث عن أي كتاب متوفر في المكتبة
+
+        <br>تسجيل بياناتك والاحتفاظ بالكتاب لفترة محددة      
+
+        <br>الإرجاع: تسجيل إعادة الكتاب لتحديث سجلات المكتبة
+
+        <br>التحقق من توفر كتاب معين أو الكتب التي قمت باستعارتها
+        <br>  أنشئ حسابك الآن أو سجّل دخولك للمتابعة
+            </p>
+    </mat-card-content>
+
+    <!-- الأزرار بشكل عمودي -->
+
+    <mat-card-actions class="hero__actions row">
+        <a mat-stroked-button color="primary" routerLink="/login">
+            <mat-icon>login</mat-icon>
+            Login
+        </a>
+        <a mat-raised-button color="accent" routerLink="/signin">
+            <mat-icon>person_add</mat-icon>
+            Create account
+        </a>
+    </mat-card-actions>
+
+  </mat-card>
+</section>

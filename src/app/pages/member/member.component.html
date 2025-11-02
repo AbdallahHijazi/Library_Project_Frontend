@@ -1,0 +1,201 @@
+<app-home></app-home>
+
+<!-- يعوّض عرض السايدبار -->
+<div class="members-page" dir="rtl">
+  <div class="card-Felrir">
+    <section class="toolbar">
+      <input
+        [(ngModel)]="search"
+        (input)="applyFilter()"
+        placeholder="ابحث بالاسم/البريد/الهاتف..."
+      />
+    </section>
+    <div>
+      <button class="button-Add" *ngIf="permissionService.has('Member.create')" type="button"  (click)="openAddMemberModal()">إضافة عضو</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading">جاري التحميل…</div>
+  <div *ngIf="!loading && errorMsg" class="error">{{ errorMsg }}</div>
+
+  <!-- شبكة: قائمة + سايدبار -->
+  <div class="members-content" *ngIf="!loading && !errorMsg">
+    <!-- بطاقات الأعضاء -->
+    <div class="members-cards" *ngIf="filtered.length > 0">
+      <div class="member-card" *ngFor="let m of filtered; trackBy: trackById">
+        <div class="card-header">
+          <h3>{{ m.fullName }}</h3>
+          <p><strong>الإيميل  :</strong><br> {{ m.email }}</p>
+        </div>
+        <div class="card-body">
+          <p><strong>الهاتف  :   </strong> {{ m.phoneNumber }}</p>
+          <p><strong>تاريخ التسجيل  : </strong> {{ m.registrationDate | date:'medium' }}</p>
+          <p><strong>عدد الاستعارات  : </strong> {{ m.borrowings?.length ?? m.borrowingsCount }}</p>
+        </div>
+        <div class="card-actions">
+          <button *ngIf="permissionService.has('Borrowing.create')" (click)="openModal('borrow', { memberId: m.id })">استعارة جديدة</button>
+          <button *ngIf="permissionService.has('Member.Delete')" (click)="openModal('confirm', { memberId: m.id })">حذف العضو</button>
+          <button *ngIf="permissionService.has('Borrowing.Delete')" (click)="openReturnModal(m)">اعادة كتاب</button>
+          <button (click)="openModal('details', { member: m })">عرض التفاصيل</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="filtered.length === 0">لا يوجد أعضاء.</div>
+  </div>
+</div>
+
+<!-- ==== المودالات (بدون تغيير) ==== -->
+
+<!-- مودال الاستعارة -->
+<div *ngIf="ui.modal === 'borrow'" class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>إضافة استعارة</h2>
+    <form (ngSubmit)="submit()" #formRef="ngForm">
+
+      <label for="member">اختر العضو:</label>
+      <ng-container *ngIf="selectedMember">
+        <input 
+        type="text" 
+        [value]="selectedMember.fullName" 
+        class="bw-input" 
+        disabled 
+        style="opacity: 0.7;width: 90%;"
+        />
+      </ng-container>
+      <select *ngIf="!selectedMember" id="member" [(ngModel)]="selectedMemberId" name="memberId" required>
+        <option [ngValue]="null" disabled selected>— اختر عضواً —</option>
+        <option *ngFor="let member of members" [value]="member.id">{{ member.fullName }}</option>
+      </select>
+      <label for="book">اختر الكتاب:</label>
+      <select id="book" [(ngModel)]="selection.bookId" name="bookId">
+        <option *ngFor="let book of books" [value]="book.id">{{ book.title }}</option>
+      </select>
+
+      <label for="borrowDate">تاريخ الاستعارة:</label>
+      <input class="inputDate" type="datetime-local" id="borrowDate" [(ngModel)]="borrowData" name="borrowDate" required />
+
+      <label for="returnDate">تاريخ الإرجاع:</label>
+      <input class="inputDate" type="datetime-local" id="returnDate" [(ngModel)]="returnDate" name="returnDate" required />
+
+      <button type="submit">تأكيد الاستعارة</button>
+      <button type="button" (click)="closeModal()">إلغاء</button>
+    </form>
+  </div>
+</div>
+
+<!-- مودال تفاصيل العضو -->
+<div class="modal-backdrop" *ngIf="ui.modal === 'details'" (click)="onBackdropClick($event)" dir="rtl" aria-modal="true" role="dialog">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header"><h3>تفاصيل الإعارة</h3></div>
+    <div class="modal-body">
+      <div *ngIf="loading">جاري تحميل التفاصيل…</div>
+      <div *ngIf="!loading && errorMsg" class="muted">{{ errorMsg }}</div>
+
+      <ng-container *ngIf="!loading && !errorMsg && selectedMember as sb">
+        <p><strong>اسم المستعير  : </strong> {{ sb.fullName }}</p>
+        <p><strong>الإيميل : </strong> {{ sb.email }}</p>
+        <p><strong>رقم الهاتف: </strong> {{ sb.phoneNumber }}</p>
+        <p><strong>تاريخ التسجيل: </strong> {{ sb.registrationDate }}</p>
+        <p><strong>عدد الكتب المستعارة : </strong> {{ sb.borrowingsCount }}</p>
+
+        <h4 style="margin-top:10px;">سجلات الاستعارة</h4>
+        <ul class="loans" *ngIf="sb.borrowings?.length; else noLoans">
+          <li *ngFor="let x of sb.borrowings">
+            <div>
+              <strong>{{ x.bookTitle | slice:0:8 }}…</strong>
+              <div class="muted">
+                {{ x.borrowDate | date:'medium' }} → {{ x.returnDate ? (x.returnDate | date:'medium') : 'غير مُعاد بعد' }}
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ng-template #noLoans>
+          <div class="muted">لا توجد استعارات مسجّلة.</div>
+        </ng-template>
+      </ng-container>
+    </div>
+    <div class="modal-actions">
+      <button (click)="closeModal()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال تأكيد الحذف -->
+<div class="modal-overlay" *ngIf="ui.modal === 'confirm'">
+  <div class="modal">
+    <p style="color: aliceblue;">هل أنت متأكد من حذف هذا العضو</p>
+    <div class="actions">
+      <button (click)="confirmDelete()">نعم</button>
+      <button (click)="closeModal()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إعادة كتاب -->
+<div *ngIf="ui.modal === 'return'" class="modal-return" (click)="onBackdropClick($event)">
+  <div class="modal-return-card" (click)="$event.stopPropagation()">
+    <div class="modal-return-header">
+      <h3>إعادة كتاب للمكتبة</h3>
+      <button class="return-x" type="button" (click)="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-return-body">
+      <div class="muted-return" *ngIf="!memberBorrowings?.length">لا توجد استعارات مفتوحة لهذا العضو.</div>
+
+      <ng-container *ngIf="memberBorrowings?.length">
+        <label class="le" for="borrowing">اختر الاستعارة لإرجاعها</label>
+        <select class="sel&op" id="borrowing" [(ngModel)]="selectedBorrowingId" name="borrowingId" required>
+          <option class="sel&op" [ngValue]="null" disabled>— اختر استعارة —</option>
+          <option class="sel&op" *ngFor="let b of memberBorrowings" [value]="b.id">
+            {{ b.bookTitle }} — {{ b.borrowDate | date:'medium' }}
+          </option>
+        </select>
+
+        <div class="actions-return">
+          <button type="button" (click)="confirmReturn()" [disabled]="!selectedBorrowingId">تأكيد الإرجاع</button>
+          <button type="button" (click)="closeModal()">إلغاء</button>
+        </div>
+      </ng-container>
+
+      <div class="error-return" *ngIf="errorMsg">{{ errorMsg }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إضافة عضو -->
+<div *ngIf="ui.modal === 'add'" class="m-add-backdrop" (click)="onBackdropClick($event)">
+  <div class="m-add-card" (click)="$event.stopPropagation()">
+    <div class="m-add-head">
+      <h3 class="m-add-title">إضافة عضو جديد</h3>
+      <button type="button" class="m-add-x" (click)="closeModal()">✕</button>
+    </div>
+
+    <form #formRef="ngForm" (ngSubmit)="submit()" class="m-add-form" method="dialog" >
+      <div class="m-add-field">
+        <label class="m-add-label" for="fullName">الاسم الكامل</label>
+        <input class="m-add-input" id="fullName" name="fullName" type="text"
+         placeholder=" أحمد العلي" required [(ngModel)]="newMemberPayload.fullName"/>
+      </div>
+
+      <div class="m-add-field">
+        <label class="m-add-label" for="email">البريد الإلكتروني</label>
+        <input class="m-add-input" id="email" name="email" type="email"
+         placeholder="name@example.com" required [(ngModel)]="newMemberPayload.email" />
+      </div>
+
+      <div class="m-add-field">
+        <label class="m-add-label" for="phoneNumber">الهاتف</label>
+        <input class="m-add-input" id="phoneNumber" name="phoneNumber" type="text"
+         placeholder="09xxxxxxxx" [(ngModel)]="newMemberPayload.phoneNumber" />
+      </div>
+
+      <div class="m-add-actions">
+        <button type="submit" class="m-add-primary">حفظ</button>
+        <button type="button" class="m-add-secondary" (click)="closeModal()">إلغاء</button>
+      </div>
+
+      <div *ngIf="errorMsg" class="m-add-error">{{ errorMsg }}</div>
+    </form>
+  </div>
+</div>
