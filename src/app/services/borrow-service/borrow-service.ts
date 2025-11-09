@@ -10,6 +10,7 @@ import { PagedResult } from "../../models/book.model/book.model";
 @Injectable({ providedIn: 'root' })
 export class BorrowService {
   private apiUrl = `${environment.apiBaseUrl}/Borrowing`; 
+  private apiUrlMember = `${environment.apiBaseUrl}/Member`; 
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +28,7 @@ export class BorrowService {
     return this.http.post<any>(this.apiUrl, borrowData); 
   }
   getBorrowingsByMember(memberId: string): Observable<Borrowing[]> {
-    return this.http.get<any>(`http://localhost:5184/api/Member/${memberId}`).pipe(
+    return this.http.get<any>(`${this.apiUrlMember}/${memberId}`).pipe(
       map(member => {
         const borrows = Array.isArray(member?.borrowings)
           ? member.borrowings

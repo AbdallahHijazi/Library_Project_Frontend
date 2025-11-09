@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   email: string = '';
   password: string = '';
+  private base = `${environment.apiBaseUrl}/User/login`;
   constructor(private http: HttpClient,
               private router : Router,
               private fb: FormBuilder,
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
       email: this.form.value.email, 
       password: this.form.value.password
     };
-    this.http.post('http://localhost:5184/api/User/login', body).subscribe({
+    this.http.post(this.base, body).subscribe({
       next: (res: any) => {
 
         const token = res?.token; 
